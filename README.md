@@ -55,7 +55,7 @@
 ----
 ### 支援版本
 
-下列MediaWiki 版本已證實可以兼容本程式 (http://download.wikimedia.org/mediawiki：
+下列MediaWiki 版本已證實可以兼容本程式 http://download.wikimedia.org/mediawiki
 
  * PHP4: 1.6.10, 1.6.11
  * PHP5: 1.12.0, 1.13.3, 1.15.4
