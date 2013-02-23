@@ -63,12 +63,6 @@
 如非必要，請使用 *PHP5* 版本。
 
 ----
-### 在線演示
-
-http://labs.xddnet.com/mediawiki-zhconverter/example/example.html
-
-
-----
 ### 許可證
 
 Copyright (C) 2011 tszming (tszming@gmail.com)
