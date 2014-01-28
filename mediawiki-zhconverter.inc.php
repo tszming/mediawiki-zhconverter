@@ -64,6 +64,7 @@ if (!file_exists(MEDIAWIKI_PATH)) {
 
 /* Add to the include path */
 set_include_path(get_include_path() . PATH_SEPARATOR . MEDIAWIKI_PATH);
+$IP = MEDIAWIKI_PATH;
 
 /**
  * Needed some dummy classes/functions/variables in order to cheat the MediaWiki.
@@ -132,11 +133,23 @@ class MediaWikiZhConverter {
 
             /* Initialize some global variables needed */
             global $wgRequest, $wgMemc;
+            global $wgLocalisationCacheConf, $wgDisabledVariants, $wgExtraLanguageNames;
+            global $wgLangConvMemc, $wgMessageCacheType, $wgObjectCaches;
             $wgRequest = new WebRequest();
             $wgMemc = new FakeMemCachedClient;
 
+            $wgLocalisationCacheConf['class'] = 'FakeMemCachedClient';
+            $wgLocalisationCacheConf['storeClass'] = 'LCStore_Null';
+            $wgDisabledVariants = array();
+            $wgExtraLanguageNames = array();
+            $wgLangConvMemc = new FakeMemCachedClient;
+            $wgObjectCaches = array(
+                'FAKE' => array( 'class' => 'FakeMemCachedClient' ),
+            );
+            $wgMessageCacheType = 'FAKE';
+
             require_once "includes/GlobalFunctions.php";
-            require_once "languages/Language.php";
+            require_once "includes/AutoLoader.php";
 
             /* Switch for PHP4 and PHP5 version of MediaWiki */
             if (file_exists( MEDIAWIKI_PATH . "languages/LanguageZh.php")) {
