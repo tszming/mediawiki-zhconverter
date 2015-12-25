@@ -135,6 +135,7 @@ class MediaWikiZhConverter {
             global $wgRequest, $wgMemc;
             global $wgLocalisationCacheConf, $wgDisabledVariants, $wgExtraLanguageNames;
             global $wgLangConvMemc, $wgMessageCacheType, $wgObjectCaches;
+            global $wgLanguageConverterCacheType, $wgMWLoggerDefaultSpi, $wgMainWANCache, $wgWANObjectCaches;
             $wgRequest = new WebRequest();
             $wgMemc = new FakeMemCachedClient;
 
@@ -143,20 +144,33 @@ class MediaWikiZhConverter {
             $wgDisabledVariants = array();
             $wgExtraLanguageNames = array();
             $wgLangConvMemc = new FakeMemCachedClient;
+            define('CACHE_NONE', 'FAKE');
             $wgObjectCaches = array(
                 'FAKE' => array( 'class' => 'FakeMemCachedClient' ),
             );
             $wgMessageCacheType = 'FAKE';
+            $wgLanguageConverterCacheType = 'FAKE';
+            $wgMainWANCache = 'FAKE';
+            $wgWANObjectCaches = array(
+                    'FAKE' => array(
+                            'class'         => 'WANObjectCache',
+                            'cacheId'       => 'FAKE',
+                            'pool'          => 'mediawiki-main-none',
+                            'relayerConfig' => array( 'class' => 'EventRelayerNull' )
+                    )
+            );
+            $wgMWLoggerDefaultSpi = array( 'class' => '\\MediaWiki\\Logger\\NullSpi' );
 
             require_once "includes/GlobalFunctions.php";
             require_once "includes/AutoLoader.php";
+            require_once "vendor/autoload.php";
 
             /* Switch for PHP4 and PHP5 version of MediaWiki */
             if (file_exists( MEDIAWIKI_PATH . "languages/LanguageZh.php")) {
                 require_once "languages/LanguageZh.php";
             } else {
                 require_once "languages/classes/LanguageZh.php";
-                require_once "includes/utils/StringUtils.php";
+                require_once "includes/libs/StringUtils.php";
             }
 
             $instance = new MediaWikiZhConverter();
